@@ -1,4 +1,4 @@
-import { Bell, CalendarClock, Target, ShieldAlert } from 'lucide-react';
+import { CalendarClock, Target, ShieldAlert } from 'lucide-react';
 import { PageHeader } from '@/components/common/PageHeader';
 import { Panel } from '@/components/common/Panel';
 const notices=[{icon:Target,title:'New sample signal available',detail:'A EUR/USD research setup was added to your signal library.',time:'Today · 09:42'},{icon:CalendarClock,title:'Economic event reminder',detail:'A high-impact USD event is listed in the sample calendar.',time:'Today · 08:00'},{icon:ShieldAlert,title:'Risk preferences saved',detail:'Your paper-trading risk preferences are active in this browser.',time:'Yesterday · 17:20'}];

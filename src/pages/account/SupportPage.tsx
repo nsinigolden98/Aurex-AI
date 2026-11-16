@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { Mail, MessageCircle, Send } from 'lucide-react';
+import { Mail, Send } from 'lucide-react';
 import { PageHeader } from '@/components/common/PageHeader';
 import { Panel } from '@/components/common/Panel';
 import { Button } from '@/components/common/ConfirmButton';
