@@ -1,0 +1,10 @@
+import { useMemo, useState } from 'react';
+import { Download, Search } from 'lucide-react';
+import { PageHeader } from '@/components/common/PageHeader';
+import { Panel } from '@/components/common/Panel';
+import { Button } from '@/components/common/ConfirmButton';
+import { SignalCard } from '@/components/signals/SignalCard';
+import { SignalDetailModal } from '@/components/signals/SignalDetailModal';
+import { useTrading } from '@/context/TradingContext';
+import type { TradingSignal } from '@/types';
+export function SignalsPage(){const {signals}=useTrading();const [filter,setFilter]=useState('ALL');const [query,setQuery]=useState('');const [selected,setSelected]=useState<TradingSignal|null>(null);const filtered=useMemo(()=>signals.filter(s=>(filter==='ALL'||s.status===filter)&&s.pair.toLowerCase().includes(query.toLowerCase())),[signals,filter,query]);function exportSignals(){const blob=new Blob([JSON.stringify(signals,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='aurex-signals.json';a.click();URL.revokeObjectURL(url);}return <><PageHeader title="Trading signals" description="Review generated setups, their risk levels and supporting market reasoning." action={<Button variant="secondary" onClick={exportSignals}><Download size={15}/> Export signals</Button>}/><Panel title="Signal library" subtitle={`${filtered.length} signals in your workspace`} action={<div className="search-field"><Search size={15}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Find a pair"/></div>}><div className="filter-row">{['ALL','ACTIVE','HIT TP','STOPPED','EXPIRED'].map(f=><button key={f} className={`filter-chip ${filter===f?'selected':''}`} onClick={()=>setFilter(f)}>{f}</button>)}</div>{filtered.length?<div className="signal-grid">{filtered.map(signal=><SignalCard key={signal.id} signal={signal} onOpen={()=>setSelected(signal)}/>)}</div>:<div className="empty-state"><h3>No matching signals</h3><p>Try another filter or generate a new analysis.</p></div>}</Panel><SignalDetailModal signal={selected} onClose={()=>setSelected(null)}/></>;}

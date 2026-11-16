@@ -1,0 +1,7 @@
+import { useState, type FormEvent } from 'react';
+import { UserRound } from 'lucide-react';
+import { PageHeader } from '@/components/common/PageHeader';
+import { Panel } from '@/components/common/Panel';
+import { Button } from '@/components/common/ConfirmButton';
+import { useAuth } from '@/context/AuthContext';
+export function ProfilePage(){const {user,updateProfile}=useAuth();const [name,setName]=useState(user?.name??'');const [timezone,setTimezone]=useState(user?.timezone??'UTC');const [saved,setSaved]=useState(false);function submit(e:FormEvent){e.preventDefault();updateProfile({name,timezone});setSaved(true);setTimeout(()=>setSaved(false),2500);}return <><PageHeader title="Your profile" description="Manage your personal workspace details."/><Panel title="Personal information" subtitle="Changes are saved to this browser in demo mode"><div className="profile-summary"><div className="profile-avatar"><UserRound size={26}/></div><div><b>{user?.name}</b><span>{user?.email}</span></div></div><form className="stack-form profile-form" onSubmit={submit}><label>Full name<input value={name} onChange={e=>setName(e.target.value)} required/></label><label>Email address<input value={user?.email??''} disabled/></label><label>Timezone<input value={timezone} onChange={e=>setTimezone(e.target.value)} required/></label><label>Member since<input value={user?.joinedAt?new Date(user.joinedAt).toLocaleDateString():'—'} disabled/></label><Button type="submit">Save profile</Button>{saved&&<div className="form-success">Profile updated.</div>}</form></Panel></>;}
